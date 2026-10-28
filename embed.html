@@ -8,15 +8,15 @@
 <meta name="author" content="AEML, NTUST">
 <title>AEML Countdown</title>
 <style>
-html,body{margin:0;padding:0;background:transparent;overflow:hidden}
-#stage{transform-origin:top center;padding-top:4px}
+html,body{margin:0;padding:0;height:100%;background:transparent;overflow:hidden}
+#stage{transform-origin:top center;min-height:100%;display:flex;flex-direction:column;justify-content:center}
 #stage .aeml-cd{width:100%!important;max-width:none!important;margin:0 auto!important}
 .msg{margin:8px;padding:12px 14px;border:3px dashed #c0392b;background:#fff4f2;color:#a3271b;font:13px/1.5 system-ui,sans-serif}
 </style>
 </head>
 <body>
 <div id="stage" data-aeml="AEML, NTUST"></div>
-<script src="aeml-countdown.min.js" integrity="sha384-EpcUzHL5tGfWaaU5WnOtiqjhP9BdJr2WWlwdKhD/F76r5KaHtwoXMWrNPfM5ALwB" crossorigin="anonymous"></script>
+<script src="aeml-countdown.min.js" integrity="sha384-hlzFyOzz3vI1uh5JBOdvX7yM44g1q+eYNURcIK0nyjjwt+426bYX42X8CBkFPyM+" crossorigin="anonymous"></script>
 <script>
 /* AEML, NTUST */
 (function () {
@@ -40,9 +40,9 @@ html,body{margin:0;padding:0;background:transparent;overflow:hidden}
   stage.appendChild(root);
   A.mount(root);
   function fit() {
-    stage.style.transform = '';
-    var h = stage.scrollHeight + 6, k = Math.min(1, window.innerHeight / h);
-    if (k < 1) stage.style.transform = 'scale(' + k.toFixed(3) + ')';
+    stage.style.transform = ''; stage.style.justifyContent = '';
+    var h = root.offsetHeight + 4, k = Math.min(1, window.innerHeight / h);
+    if (k < 1) { stage.style.justifyContent = 'flex-start'; stage.style.transform = 'scale(' + k.toFixed(3) + ')'; }
   }
   fit();
   window.addEventListener('resize', fit);
