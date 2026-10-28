@@ -1,0 +1,54 @@
+<!doctype html>
+<!-- AEML Countdown v1.0.0 | iframe page for Moodle | (c) 2026 AEML, NTUST | All rights reserved -->
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="author" content="AEML, NTUST">
+<title>AEML Countdown</title>
+<style>
+html,body{margin:0;padding:0;background:transparent;overflow:hidden}
+#stage{transform-origin:top center;padding-top:4px}
+#stage .aeml-cd{width:auto!important;max-width:720px!important}
+.msg{margin:8px;padding:12px 14px;border:3px dashed #c0392b;background:#fff4f2;color:#a3271b;font:13px/1.5 system-ui,sans-serif}
+</style>
+</head>
+<body>
+<div id="stage" data-aeml="AEML, NTUST"></div>
+<script src="aeml-countdown.min.js" integrity="sha384-eTXujBVTC3CA0Xn/r7Mg+ypM1bZ7mgdT8259egV7a50ALSlM0YkWGapZtsSi7lbp" crossorigin="anonymous"></script>
+<script>
+/* AEML, NTUST */
+(function () {
+  'use strict';
+  var stage = document.getElementById('stage');
+  function fail(t) { stage.innerHTML = '<div class="msg"></div>'; stage.firstChild.textContent = t + ' -- AEML, NTUST'; }
+  var A = window.AEMLCountdown;
+  if (!A || A.mark !== 'AEML, NTUST') { fail('The countdown program could not be loaded or was modified.'); return; }
+  var m = /[#&]c=([A-Za-z0-9_-]+)/.exec(location.hash);
+  if (!m) { fail('No countdown settings found in this link.'); return; }
+  var cfg;
+  try {
+    var b = m[1].replace(/-/g, '+').replace(/_/g, '/');
+    while (b.length % 4) b += '=';
+    var bin = atob(b), u = new Uint8Array(bin.length), i;
+    for (i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    cfg = JSON.parse(new TextDecoder().decode(u));
+  } catch (e) { fail('The countdown settings in this link are damaged.'); return; }
+  var sig = cfg.g; delete cfg.g;
+  var root = A.build(cfg, sig);
+  stage.appendChild(root);
+  A.mount(root);
+  function fit() {
+    stage.style.transform = '';
+    var h = stage.scrollHeight + 6, k = Math.min(1, window.innerHeight / h);
+    if (k < 1) stage.style.transform = 'scale(' + k.toFixed(3) + ')';
+  }
+  fit();
+  window.addEventListener('resize', fit);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  if (window.ResizeObserver) new ResizeObserver(fit).observe(root);
+})();
+</script>
+</body>
+</html>
